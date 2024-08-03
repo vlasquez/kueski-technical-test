@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.technicaltest.design_system"
+    namespace = "com.technicaltest.network"
     compileSdk = 34
 
     defaultConfig {
@@ -33,18 +33,11 @@ android {
 }
 
 dependencies {
-
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
-    api(libs.androidx.material3)
-
-    api(libs.androidx.activity.compose)
-    api(platform(libs.androidx.compose.bom))
-
+    implementation(libs.okhttp)
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.converter.gson)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-    androidTestImplementation(platform(libs.androidx.compose.bom))
-
 }

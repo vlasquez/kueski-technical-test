@@ -22,3 +22,4 @@ dependencyResolutionManagement {
 rootProject.name = "KueskiTechnicalTest"
 include(":app")
 include(":design-system")
+include(":network")

@@ -58,6 +58,7 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
 
     implementation(project(":design-system"))
+    implementation(project(":network"))
 
 
     testImplementation(libs.junit)
