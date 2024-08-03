@@ -23,3 +23,4 @@ rootProject.name = "KueskiTechnicalTest"
 include(":app")
 include(":design-system")
 include(":network")
+include(":feature-movies")

@@ -64,8 +64,7 @@ dependencies {
     kapt(libs.hilt.compiler)
 
     implementation(project(":design-system"))
-    implementation(project(":network"))
-
+    implementation(project(":feature-movies"))
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

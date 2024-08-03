@@ -3,10 +3,11 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.kotlin.kapt)
     alias(libs.plugins.hilt.android)
+    id("kotlin-parcelize")
 }
 
 android {
-    namespace = "com.technicaltest.network"
+    namespace = "com.technicaltest.feature_movies"
     compileSdk = 34
 
     defaultConfig {
@@ -16,24 +17,7 @@ android {
         consumerProguardFiles("consumer-rules.pro")
     }
 
-    buildFeatures {
-        buildConfig = true
-    }
-
     buildTypes {
-        debug {
-            buildConfigField(
-                "String",
-                "BASE_URL",
-                "\"https://api.themoviedb.org/\""
-            )
-
-            buildConfigField(
-                "String",
-                "API_KEY",
-                "\"d9066ec7feb9e1c8f7bfc4f7fa63f6e7\""
-            )
-        }
         release {
             isMinifyEnabled = false
             proguardFiles(
@@ -43,27 +27,25 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_9
-        targetCompatibility = JavaVersion.VERSION_1_9
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
     }
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_9.toString()
-    }
-
-    kapt {
-        correctErrorTypes = true
+        jvmTarget = "1.8"
     }
 }
 
 dependencies {
-    implementation(libs.okhttp)
-    api(libs.retrofit)
-    implementation(libs.retrofit.converter.gson)
-    implementation(libs.logging.interceptor)
-    api(libs.gson)
+
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.material)
 
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
+
+    implementation(project(":design-system"))
+    implementation(project(":network"))
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
