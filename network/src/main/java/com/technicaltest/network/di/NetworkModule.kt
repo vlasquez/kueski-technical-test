@@ -1,5 +1,6 @@
 package com.technicaltest.network.di
 
+import com.technicaltest.network.adapter.NetworkResultCallAdapterFactory
 import com.technicaltest.network.BuildConfig
 import dagger.Module
 import dagger.Provides
@@ -32,6 +33,7 @@ class NetworkModule {
             .baseUrl(BuildConfig.BASE_URL)
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
+            .addCallAdapterFactory(NetworkResultCallAdapterFactory.create())
             .build()
 
 }
