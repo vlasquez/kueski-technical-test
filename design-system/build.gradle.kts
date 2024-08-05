@@ -45,8 +45,13 @@ dependencies {
     implementation(libs.androidx.appcompat)
     api(libs.androidx.material3)
 
-    api(libs.androidx.activity.compose)
     api(platform(libs.androidx.compose.bom))
+    debugImplementation(libs.androidx.compose.ui.tooling)
+    api(libs.androidx.compose.ui.tooling.preview)
+    api(libs.androidx.compose.foundation)
+    api(libs.androidx.compose.material)
+
+    api(libs.glide.compose)
 
 
     testImplementation(libs.junit)
