@@ -4,7 +4,9 @@ import com.technicaltest.feature_movies.data.datasource.remote.model.GenericMovi
 
 interface MoviesRemoteDataSource {
 
-    suspend fun getPopularMovies(page: Int): Result<GenericMovieResponse>
+    suspend fun getPopularMovies(
+        page: Int
+    ): Result<GenericMovieResponse>
 
     suspend fun getNowPlayingMovies(
         page: Int,
