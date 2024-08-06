@@ -48,8 +48,10 @@ dependencies {
     api(platform(libs.androidx.compose.bom))
     debugImplementation(libs.androidx.compose.ui.tooling)
     api(libs.androidx.compose.ui.tooling.preview)
+    api(libs.androidx.navigation.compose)
     api(libs.androidx.compose.foundation)
     api(libs.androidx.compose.material)
+    api(libs.androidx.compose.material3)
 
     api(libs.glide.compose)
 

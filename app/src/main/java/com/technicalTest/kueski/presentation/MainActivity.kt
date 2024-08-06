@@ -1,4 +1,4 @@
-package com.technicalTest.kueski
+package com.technicalTest.kueski.presentation
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
+import com.technicalTest.kueski.presentation.composable.MainScreen
 import com.technicaltest.design_system.theme.AppTheme
 import com.technicaltest.feature_movies.presentation.composable.MovieScreen
 import dagger.hilt.android.AndroidEntryPoint
@@ -19,9 +20,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             AppTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    MovieScreen(modifier = Modifier.padding(innerPadding))
-                }
+               MainScreen()
             }
         }
     }
