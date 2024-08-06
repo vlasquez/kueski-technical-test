@@ -24,7 +24,6 @@ class MoviesViewModel @Inject constructor(
 
     fun getPopularMovies(page: Int = 1) {
         viewModelScope.launch {
-
             getPopularMoviesUseCase(page = page)
                 .onSuccess {
                     _viewState.value = ViewState.Success(

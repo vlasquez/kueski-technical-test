@@ -4,12 +4,11 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material3.Card
@@ -19,6 +18,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
@@ -37,48 +37,34 @@ fun MovieItemView(
 ) {
     Card(
         modifier = modifier
-            .padding(16.dp)
-            .wrapContentHeight()
+            .height(300.dp)
+            .padding(8.dp)
             .clickable {
                 onItemClick()
             },
-        elevation = CardDefaults.cardElevation(4.dp)
+        elevation = CardDefaults.cardElevation(8.dp)
     ) {
-        Column {
+        Column(verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
             GlideImage(
                 model = posterUrl,
                 contentDescription = "Movie Poster",
                 modifier = Modifier
+                    .clip(
+                        RoundedCornerShape(
+                            topStart = 16.dp,
+                            topEnd = 16.dp
+                        )
+                    )
+                    .size(200.dp)
                     .fillMaxWidth()
-                    .height(100.dp)
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-            Row(
-                modifier = Modifier
-                    .padding(16.dp)
-                    .fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(
+                it.centerCrop()
+            }
+                Text(modifier = Modifier.padding(horizontal = 8.dp),
                     text = movieTitle,
                     style = AppTypography.bodySmall
                 )
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(4.dp)
-                ) {
-                    Text(
-                        text = "$moviePopularity",
-                        style = AppTypography.bodyMedium
-                    )
-                    Icon(
-                        imageVector = Icons.Filled.Favorite,
-                        contentDescription = "Likes",
-                        modifier = Modifier.size(24.dp)
-                    )
-                }
-            }
         }
     }
 }

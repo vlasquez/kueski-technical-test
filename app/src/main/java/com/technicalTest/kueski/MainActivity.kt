@@ -9,8 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
 import com.technicaltest.design_system.theme.AppTheme
-import com.technicaltest.feature_movies.presentation.composable.MovieLayout
-import dagger.hilt.EntryPoint
+import com.technicaltest.feature_movies.presentation.composable.MovieScreen
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -21,7 +20,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             AppTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    MovieLayout(modifier = Modifier.padding(innerPadding))
+                    MovieScreen(modifier = Modifier.padding(innerPadding))
                 }
             }
         }

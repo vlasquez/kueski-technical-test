@@ -7,7 +7,7 @@ fun MovieResponse.toMovie() = Movie(
     movieId = this.id,
     title = this.title,
     originalTitle = this.originalTitle,
-    posterPath = this.posterPath,
+    posterPath = BASE_IMAGE_URL + this.posterPath,
     releaseDate = this.releaseDate,
     overview = this.overview,
     popularity = this.popularity,
@@ -16,3 +16,5 @@ fun MovieResponse.toMovie() = Movie(
     genreIds = this.genreIds,
     isFavorite = false
 )
+
+const val BASE_IMAGE_URL = "https://image.tmdb.org/t/p/w500"
