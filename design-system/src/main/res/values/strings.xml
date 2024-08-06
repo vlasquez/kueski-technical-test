@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="popular_movies_title">Popular</string>
+    <string name="playing_now_movie_title">Playing Now</string>
+    <string name="favorites_movies_title">Favorites</string>
+    <string name="generic_error">Something went wrong!</string>
+
+</resources>

@@ -24,9 +24,9 @@ fun MovieGridLayout(
     ) {
         items(movies) { movie ->
             MovieItemView(
+                isGridView = true,
                 posterUrl = movie.posterPath,
                 movieTitle = movie.title,
-                moviePopularity = movie.popularity ?: 0.0,
                 onItemClick = {
                     onMovieClick(movie)
                 }

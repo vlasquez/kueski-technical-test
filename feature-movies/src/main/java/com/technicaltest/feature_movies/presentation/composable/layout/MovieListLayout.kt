@@ -21,9 +21,9 @@ fun MovieListLayout(
     ) {
         items(movies) { movie ->
             MovieItemView(
+                isGridView = false,
                 posterUrl = movie.posterPath,
                 movieTitle = movie.title,
-                moviePopularity = movie.popularity ?: 0.0,
                 onItemClick = { onMovieClick(movie) }
             )
         }
