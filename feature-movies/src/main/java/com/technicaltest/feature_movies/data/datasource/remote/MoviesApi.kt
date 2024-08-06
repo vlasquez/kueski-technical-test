@@ -5,7 +5,7 @@ import com.technicaltest.network.BuildConfig
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-internal interface MoviesApi {
+interface MoviesApi {
 
     @GET("/3/discover/movie")
     suspend fun getPopularMovies(

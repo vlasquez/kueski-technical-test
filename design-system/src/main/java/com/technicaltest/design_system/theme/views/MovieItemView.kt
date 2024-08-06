@@ -1,5 +1,6 @@
 package com.technicaltest.design_system.theme.views
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -8,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
@@ -28,17 +28,20 @@ import com.technicaltest.design_system.theme.AppTypography
 
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
-fun MovieView(
-    posterUrl: String,
+fun MovieItemView(
+    posterUrl: String?,
     movieTitle: String,
-    movieFavoritesCount: Int,
+    moviePopularity: Double,
+    onItemClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Card(
         modifier = modifier
             .padding(16.dp)
-            .width(300.dp)
-            .wrapContentHeight(),
+            .wrapContentHeight()
+            .clickable {
+                onItemClick()
+            },
         elevation = CardDefaults.cardElevation(4.dp)
     ) {
         Column {
@@ -47,7 +50,7 @@ fun MovieView(
                 contentDescription = "Movie Poster",
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(200.dp)
+                    .height(100.dp)
             )
             Spacer(modifier = Modifier.height(8.dp))
             Row(
@@ -59,13 +62,16 @@ fun MovieView(
             ) {
                 Text(
                     text = movieTitle,
-                    style = AppTypography.titleLarge
+                    style = AppTypography.bodySmall
                 )
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
-                    Text(text = "$movieFavoritesCount")
+                    Text(
+                        text = "$moviePopularity",
+                        style = AppTypography.bodyMedium
+                    )
                     Icon(
                         imageVector = Icons.Filled.Favorite,
                         contentDescription = "Likes",
@@ -81,10 +87,11 @@ fun MovieView(
 @Preview
 private fun MoviePreview() {
     AppTheme {
-        MovieView(
+        MovieItemView(
             posterUrl = "https://image.tmdb.org/t/p/w500/z1p34vh7dEOnLDmyCrlUVLuoDzd.jpg",
-            movieTitle = "Movie Title",
-            movieFavoritesCount = 3
+            movieTitle = "The Godfather",
+            moviePopularity = 3.0,
+            onItemClick = {}
         )
     }
 }

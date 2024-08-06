@@ -10,7 +10,6 @@ interface MoviesRemoteDataSource {
 
     suspend fun getNowPlayingMovies(
         page: Int,
-        minimumDate: String,
         maximumDate: String
     ): Result<GenericMovieResponse>
 }

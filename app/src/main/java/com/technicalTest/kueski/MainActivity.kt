@@ -9,8 +9,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
 import com.technicaltest.design_system.theme.AppTheme
-import com.technicaltest.feature_movies.presentation.composable.MoviesView
+import com.technicaltest.feature_movies.presentation.composable.MovieLayout
+import dagger.hilt.EntryPoint
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -18,7 +21,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             AppTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    MoviesView(modifier = Modifier.padding(innerPadding))
+                    MovieLayout(modifier = Modifier.padding(innerPadding))
                 }
             }
         }

@@ -13,12 +13,13 @@ internal class MoviesRemoteDataSourceImpl @Inject constructor(
 
     override suspend fun getNowPlayingMovies(
         page: Int,
-        minimumDate: String,
         maximumDate: String
     ): Result<GenericMovieResponse> =
         moviesApi.getNowPlayingMovies(
             page = page,
-            minimumDate = minimumDate,
+            minimumDate = MINIMUM_DATE,
             maximumDate = maximumDate
         )
 }
+
+const val MINIMUM_DATE = "1950-01-01"

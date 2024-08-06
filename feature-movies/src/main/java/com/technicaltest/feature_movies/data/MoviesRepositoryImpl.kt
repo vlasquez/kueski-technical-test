@@ -5,6 +5,8 @@ import com.technicaltest.feature_movies.data.datasource.mapper.toMovie
 import com.technicaltest.feature_movies.data.datasource.remote.MoviesRemoteDataSource
 import com.technicaltest.feature_movies.domain.MoviesRepository
 import com.technicaltest.feature_movies.domain.entity.Movie
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class MoviesRepositoryImpl @Inject constructor(
@@ -13,21 +15,23 @@ class MoviesRepositoryImpl @Inject constructor(
 ) : MoviesRepository {
 
     override suspend fun getPopularMovies(page: Int): Result<List<Movie>> =
-        moviesRemoteDataSource.getPopularMovies(page = page).map { response ->
-            response.results.map { movieResponse -> movieResponse.toMovie() }
+        withContext(Dispatchers.IO) {
+            moviesRemoteDataSource.getPopularMovies(page = page).map { response ->
+                response.results.map { movieResponse -> movieResponse.toMovie() }
+            }
         }
 
     override suspend fun getNowPlayingMovies(
         page: Int,
-        minimumDate: String,
         maximumDate: String
     ): Result<List<Movie>> =
-        moviesRemoteDataSource.getNowPlayingMovies(
-            page = page,
-            minimumDate = minimumDate,
-            maximumDate = maximumDate
-        ).map { response ->
-            response.results.map { movieResponse -> movieResponse.toMovie() }
+        withContext(Dispatchers.IO) {
+            moviesRemoteDataSource.getNowPlayingMovies(
+                page = page,
+                maximumDate = maximumDate
+            ).map { response ->
+                response.results.map { movieResponse -> movieResponse.toMovie() }
+            }
         }
 
     override suspend fun saveFavoriteMovie(movieId: Long) =

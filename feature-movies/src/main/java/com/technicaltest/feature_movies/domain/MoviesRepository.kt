@@ -8,7 +8,6 @@ interface MoviesRepository {
 
     suspend fun getNowPlayingMovies(
         page: Int,
-        minimumDate: String,
         maximumDate: String
     ): Result<List<Movie>>
 
