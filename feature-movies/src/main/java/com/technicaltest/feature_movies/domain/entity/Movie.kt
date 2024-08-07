@@ -16,5 +16,7 @@ data class Movie(
     val voteCount: Long?,
     val voteAverage: Double?,
     val genreIds: List<Long>?,
-    val isFavorite: Boolean?
+    val isFavorite: Boolean?,
+    val runtime: Int?,
+    val genres : List<Genre>?
 ) : Parcelable

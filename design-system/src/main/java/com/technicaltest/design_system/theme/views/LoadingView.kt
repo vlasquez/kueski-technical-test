@@ -8,8 +8,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import com.technicaltest.design_system.theme.AppTheme
+import com.technicaltest.design_system.theme.Layout
 
 @Composable
 fun LoadingAnimation() {
@@ -18,7 +18,7 @@ fun LoadingAnimation() {
         modifier = Modifier.fillMaxSize()
     ) {
         CircularProgressIndicator(
-            modifier = Modifier.size(50.dp)
+            modifier = Modifier.size(Layout.Spacing.Medium.L)
         )
     }
 }

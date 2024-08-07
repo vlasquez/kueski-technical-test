@@ -1,5 +1,6 @@
 package com.technicaltest.feature_movies.presentation.composable
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -21,25 +22,64 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.technicaltest.design_system.R
+import com.technicaltest.design_system.theme.AppTypography
+import com.technicaltest.design_system.theme.Layout
+import com.technicaltest.design_system.theme.Padding
+import com.technicaltest.design_system.theme.views.LoadingAnimation
+import com.technicaltest.feature_movies.domain.entity.Genre
 import com.technicaltest.feature_movies.domain.entity.Movie
+import com.technicaltest.feature_movies.presentation.MovieDetailsViewModel
 
 
 @Composable
 fun MovieDetailsScreen(movie: Movie) {
+    val viewModel: MovieDetailsViewModel = hiltViewModel()
+    val viewState by viewModel.viewState.collectAsState()
+
+    val movieDetail = remember { mutableStateOf<Movie?>(null) }
+
+    LaunchedEffect(Unit) {
+        viewModel.getMovieDetail(movieId = movie.movieId.toString())
+    }
+
+    when (viewState) {
+        is MovieDetailsViewModel.ViewState.Loading -> {
+            LoadingAnimation()
+        }
+
+        is MovieDetailsViewModel.ViewState.Success -> {
+            movieDetail.value = (viewState as MovieDetailsViewModel.ViewState.Success).movie
+        }
+
+        is MovieDetailsViewModel.ViewState.Error -> {
+            Toast.makeText(
+                LocalContext.current,
+                (viewState as MovieDetailsViewModel.ViewState.Error).message
+                    ?: stringResource(id = R.string.generic_error),
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+    }
 
     MovieDetailsContent(
         movieImageBackdrop = movie.backdropPath,
@@ -48,7 +88,8 @@ fun MovieDetailsScreen(movie: Movie) {
         movieReleaseDate = movie.releaseDate,
         movieOverview = movie.overview,
         movieVoteAverage = movie.voteAverage.toString(),
-        movieGenres = emptyList()
+        movieRuntime = movieDetail.value?.runtime,
+        movieGenres = movieDetail.value?.genres ?: emptyList()
     )
 }
 
@@ -61,7 +102,8 @@ private fun MovieDetailsContent(
     movieReleaseDate: String,
     movieOverview: String,
     movieVoteAverage: String,
-    movieGenres: List<String>
+    movieRuntime: Int?,
+    movieGenres: List<Genre>?
 ) {
     Column(
         modifier = Modifier
@@ -74,19 +116,17 @@ private fun MovieDetailsContent(
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(210.dp),
+                    .height(MOVIE_BACKDROP_HEIGHT.dp),
                 shape = RoundedCornerShape(
-                    topStart = 0.dp,
-                    topEnd = 0.dp,
-                    bottomEnd = 20.dp,
-                    bottomStart = 20.dp
+                    bottomEnd = Layout.Spacing.Medium.S,
+                    bottomStart = Layout.Spacing.Medium.S
                 ),
             ) {
                 Box {
                     GlideImage(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(210.dp),
+                            .height(MOVIE_BACKDROP_HEIGHT.dp),
                         model = movieImageBackdrop,
                         contentDescription = null,
                         contentScale = ContentScale.FillBounds,
@@ -96,12 +136,17 @@ private fun MovieDetailsContent(
                         modifier = Modifier
                             .offset(x = 310.dp, y = 178.dp)
                             .width(54.dp)
-                            .height(24.dp)
+                            .height(Layout.Spacing.Medium.S)
                             .background(
-                                color = Color(0x52252836),
-                                shape = RoundedCornerShape(size = 8.dp)
+                                color = Color.White,
+                                shape = RoundedCornerShape(size = Padding.Small.S)
                             )
-                            .padding(start = 8.dp, top = 4.dp, end = 8.dp, bottom = 4.dp),
+                            .padding(
+                                start = Padding.Small.S,
+                                top = Padding.Small.Xs,
+                                end = Padding.Small.S,
+                                bottom = Padding.Small.Xs
+                            ),
                         colors = CardDefaults.cardColors(
                             containerColor = Color.Transparent
                         ),
@@ -114,8 +159,7 @@ private fun MovieDetailsContent(
                             Spacer(modifier = Modifier.width(4.dp))
                             Text(
                                 text = movieVoteAverage,
-                                fontSize = 12.sp,
-                                fontWeight = FontWeight(600),
+                                style = AppTypography.bodySmall,
                             )
                         }
                     }
@@ -126,16 +170,16 @@ private fun MovieDetailsContent(
                 modifier = Modifier
                     .offset(x = 29.dp, y = 150.dp)
                     .width(95.dp)
-                    .height(120.dp),
+                    .height(Layout.Spacing.Large.L),
                 colors = CardDefaults.cardColors(
                     containerColor = Color.Gray
                 ),
-                shape = RoundedCornerShape(16.dp),
+                shape = RoundedCornerShape(Layout.Spacing.Small.L),
             ) {
                 GlideImage(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(210.dp),
+                        .height(MOVIE_BACKDROP_HEIGHT.dp),
                     model = movieImagePoster,
                     contentDescription = null,
                     contentScale = ContentScale.FillBounds,
@@ -144,135 +188,133 @@ private fun MovieDetailsContent(
 
             Text(
                 modifier = Modifier
-                    .width(210.dp)
+                    .width(MOVIE_BACKDROP_HEIGHT.dp)
                     .height(48.dp)
                     .offset(x = 140.dp, y = 220.dp),
                 text = movieTitle,
-                fontSize = 20.sp,
-                fontWeight = FontWeight(600),
+                style = AppTypography.bodyLarge,
             )
         }
 
-        Spacer(modifier = Modifier.height(75.dp))
+        Spacer(modifier = Modifier.height(Layout.Spacing.Large.M))
 
 
         HorizontalThreeOptions(
             yearRelease = movieReleaseDate,
-            duration = "",
-            genre = movieGenres.firstOrNull() ?: ""
+            duration = movieRuntime,
+            genre = movieGenres?.firstOrNull()?.name ?: ""
         )
 
-        Spacer(modifier = Modifier.height(24.dp))
+        Spacer(modifier = Modifier.height(Layout.Spacing.Medium.S))
 
         Text(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 24.dp),
+                .padding(horizontal = Padding.Medium.S),
             text = stringResource(R.string.movie_description),
-            fontSize = 20.sp,
-            fontWeight = FontWeight(600),
+            style = AppTypography.headlineSmall,
         )
 
-        Spacer(modifier = Modifier.height(12.dp))
+        Spacer(modifier = Modifier.height(Layout.Spacing.Small.M))
 
         Text(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 24.dp),
+                .padding(horizontal = Padding.Medium.S),
             text = movieOverview,
             textAlign = TextAlign.Justify,
-            fontSize = 14.sp,
-            fontWeight = FontWeight(400),
+            style = AppTypography.bodyMedium,
         )
 
-        Spacer(modifier = Modifier.height(24.dp))
+        Spacer(modifier = Modifier.height(Padding.Medium.S))
 
-        val listGenres = movieGenres.joinToString(separator = " * ") { it }
+        val genreList = movieGenres?.joinToString(separator = " * ") { it.name }
 
-        Text(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 24.dp),
-            text = listGenres,
-            fontSize = 12.sp,
-            textAlign = TextAlign.Center,
-            fontWeight = FontWeight(600),
-        )
+        genreList?.let {
+            Text(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = Padding.Medium.S),
+                text = it,
+                textAlign = TextAlign.Center,
+                style = AppTypography.bodyLarge,
+            )
+        }
     }
 }
 
 @Composable
 private fun HorizontalThreeOptions(
     yearRelease: String,
-    duration: String,
+    duration: Int?,
     genre: String,
 ) {
 
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 24.dp),
+            .padding(horizontal = Padding.Medium.S),
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically
     ) {
 
         Icon(
-            modifier = Modifier.size(16.dp),
+            modifier = Modifier.size(Layout.Spacing.Small.L),
             painter = painterResource(id = R.drawable.ic_calendar),
             contentDescription = null,
             tint = Color.Gray,
         )
 
-        Spacer(modifier = Modifier.width(4.dp))
+        Spacer(modifier = Modifier.width(Layout.Spacing.Small.Xs))
 
         Text(
             text = yearRelease,
-            fontSize = 14.sp,
+            style = AppTypography.bodyMedium,
         )
 
-        Spacer(modifier = Modifier.width(12.dp))
+        Spacer(modifier = Modifier.width(Layout.Spacing.Small.M))
+
+        duration?.let {
+            Icon(
+                painter = painterResource(id = R.drawable.ic_vertical_line),
+                contentDescription = null,
+            )
+
+            Spacer(modifier = Modifier.width(Layout.Spacing.Small.M))
+
+            Icon(
+                painter = painterResource(id = R.drawable.ic_clock),
+                contentDescription = null,
+            )
+            Spacer(modifier = Modifier.width(Layout.Spacing.Small.Xs))
+            Text(
+                text = stringResource(
+                    R.string.movie_duration,
+                    it.toString()
+                ),
+                style = AppTypography.bodyMedium,
+                fontWeight = FontWeight(600),
+            )
+        }
+
+        Spacer(modifier = Modifier.width(Layout.Spacing.Small.M))
 
         Icon(
             painter = painterResource(id = R.drawable.ic_vertical_line),
             contentDescription = null,
         )
 
-        Spacer(modifier = Modifier.width(12.dp))
-
-        Icon(
-            painter = painterResource(id = R.drawable.ic_clock),
-            contentDescription = null,
-        )
-
-        Spacer(modifier = Modifier.width(4.dp))
-
-        Text(
-            text = duration,
-            fontSize = 14.sp,
-            fontWeight = FontWeight(600),
-        )
-
-        Spacer(modifier = Modifier.width(12.dp))
-
-        Icon(
-            painter = painterResource(id = R.drawable.ic_vertical_line),
-            contentDescription = null,
-        )
-
-        Spacer(modifier = Modifier.width(12.dp))
+        Spacer(modifier = Modifier.width(Layout.Spacing.Small.M))
 
         Icon(
             painter = painterResource(id = R.drawable.ic_ticket),
             contentDescription = null,
         )
 
-        Spacer(modifier = Modifier.width(4.dp))
-
-        //Genre
+        Spacer(modifier = Modifier.width(Layout.Spacing.Small.Xs))
         Text(
             text = genre,
-            fontSize = 14.sp,
-            fontWeight = FontWeight(600),
+            style = AppTypography.bodyMedium
         )
 
     }
@@ -286,3 +328,5 @@ fun MovieDetailsScreenPreview() {
         moviePreviewProvider().first()
     )
 }
+
+const val MOVIE_BACKDROP_HEIGHT = 210

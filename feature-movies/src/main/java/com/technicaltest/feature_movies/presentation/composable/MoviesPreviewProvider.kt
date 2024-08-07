@@ -15,7 +15,9 @@ fun moviePreviewProvider() = listOf(
         voteCount = 1,
         voteAverage = 1.0,
         genreIds = listOf(1),
-        isFavorite = false
+        isFavorite = false,
+        runtime = 1,
+        genres = listOf()
     ), Movie(
         movieId = 1,
         title = "The Godfather: Part II",
@@ -28,6 +30,8 @@ fun moviePreviewProvider() = listOf(
         voteCount = 1,
         voteAverage = 1.0,
         genreIds = listOf(1),
-        isFavorite = false
+        isFavorite = false,
+        runtime = 1,
+        genres = listOf()
     )
 )

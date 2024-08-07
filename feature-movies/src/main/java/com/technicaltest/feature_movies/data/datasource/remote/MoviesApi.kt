@@ -1,8 +1,10 @@
 package com.technicaltest.feature_movies.data.datasource.remote
 
 import com.technicaltest.feature_movies.data.datasource.remote.model.GenericMovieResponse
+import com.technicaltest.feature_movies.data.datasource.remote.model.MovieResponse
 import com.technicaltest.network.BuildConfig
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface MoviesApi {
@@ -29,4 +31,11 @@ interface MoviesApi {
         @Query("page") page: Int,
         @Query("api_key") apiKey: String = BuildConfig.API_KEY
     ): Result<GenericMovieResponse>
+
+    @GET("/3/movie/{id}")
+    suspend fun getMovieDetail(
+        @Path("id") movieId: String,
+        @Query("api_key") apiKey: String = BuildConfig.API_KEY,
+        @Query("language") language: String = "en-US",
+    ): Result<MovieResponse>
 }

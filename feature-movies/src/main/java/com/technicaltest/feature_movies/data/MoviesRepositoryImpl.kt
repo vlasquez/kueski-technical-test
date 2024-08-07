@@ -34,6 +34,14 @@ class MoviesRepositoryImpl @Inject constructor(
             }
         }
 
+
+    override suspend fun getMovieDetail(movieId: String): Result<Movie> =
+        withContext(Dispatchers.IO) {
+            moviesRemoteDataSource.getMovieDetail(movieId = movieId).map { response ->
+                response.toMovie()
+            }
+        }
+
     override suspend fun saveFavoriteMovie(movieId: Long) =
         moviesLocalDataSource.saveFavoriteMovie(movieId = movieId)
 

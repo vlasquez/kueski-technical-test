@@ -20,6 +20,8 @@ import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.technicaltest.design_system.theme.AppTheme
 import com.technicaltest.design_system.theme.AppTypography
+import com.technicaltest.design_system.theme.Layout
+import com.technicaltest.design_system.theme.Padding
 
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
@@ -32,16 +34,16 @@ fun MovieItemView(
 ) {
     Card(
         modifier = modifier
-            .height(300.dp)
+            .height(MOVIE_CARD_HEIGHT.dp)
             .fillMaxWidth()
-            .padding(8.dp)
+            .padding(Padding.Small.S)
             .clickable {
                 onItemClick()
             },
-        elevation = CardDefaults.cardElevation(8.dp)
+        elevation = CardDefaults.cardElevation(Layout.Spacing.Small.S)
     ) {
         Column(
-            verticalArrangement = Arrangement.spacedBy(8.dp)
+            verticalArrangement = Arrangement.spacedBy(Layout.Spacing.Small.S)
         ) {
             GlideImage(
                 model = posterUrl,
@@ -49,11 +51,11 @@ fun MovieItemView(
                 modifier = Modifier
                     .clip(
                         RoundedCornerShape(
-                            topStart = 16.dp,
-                            topEnd = 16.dp
+                            topStart = Padding.Small.L,
+                            topEnd = Padding.Small.L
                         )
                     )
-                    .height(200.dp)
+                    .height(MOVIE_IMAGE_HEIGHT.dp)
                     .fillMaxWidth()
             ) {
                 it.centerCrop()
@@ -61,7 +63,7 @@ fun MovieItemView(
             Text(
                 textAlign = if (isGridView) TextAlign.Start else TextAlign.Center,
                 modifier = Modifier
-                    .padding(horizontal = 8.dp)
+                    .padding(horizontal = Padding.Small.S)
                     .fillMaxWidth(),
                 text = movieTitle,
                 style = if (isGridView) AppTypography.bodySmall else AppTypography.bodyLarge
@@ -82,3 +84,6 @@ private fun MoviePreview() {
         )
     }
 }
+
+const val MOVIE_IMAGE_HEIGHT = 200
+const val MOVIE_CARD_HEIGHT = 300

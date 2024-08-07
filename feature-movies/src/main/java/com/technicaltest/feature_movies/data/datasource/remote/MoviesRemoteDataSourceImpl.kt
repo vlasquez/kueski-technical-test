@@ -1,6 +1,7 @@
 package com.technicaltest.feature_movies.data.datasource.remote
 
 import com.technicaltest.feature_movies.data.datasource.remote.model.GenericMovieResponse
+import com.technicaltest.feature_movies.data.datasource.remote.model.MovieResponse
 import javax.inject.Inject
 
 internal class MoviesRemoteDataSourceImpl @Inject constructor(
@@ -20,6 +21,10 @@ internal class MoviesRemoteDataSourceImpl @Inject constructor(
             minimumDate = MINIMUM_DATE,
             maximumDate = maximumDate
         )
+
+
+    override suspend fun getMovieDetail(movieId: String): Result<MovieResponse> =
+        moviesApi.getMovieDetail(movieId = movieId)
 }
 
 const val MINIMUM_DATE = "1950-01-01"

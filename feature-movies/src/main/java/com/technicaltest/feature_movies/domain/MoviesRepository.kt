@@ -11,6 +11,8 @@ interface MoviesRepository {
         maximumDate: String
     ): Result<List<Movie>>
 
+    suspend fun getMovieDetail(movieId: String): Result<Movie>
+
     suspend fun saveFavoriteMovie(movieId: Long)
 
     suspend fun getFavoriteMovies(): List<Movie>

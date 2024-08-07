@@ -5,6 +5,7 @@
     <string name="favorites_movies_title">Favorites</string>
     <string name="generic_error">Something went wrong!</string>
     <string name="movie_description">Description</string>
+    <string name="movie_duration">%1$s min</string>
 
 
 </resources>

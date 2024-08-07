@@ -13,9 +13,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.technicalTest.kueski.R
+import com.technicaltest.design_system.theme.AppTypography
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -27,14 +27,19 @@ fun TopBar(
     val isGridViewState = remember { mutableStateOf(isGridView) }
 
     TopAppBar(
-        title = { Text(text = stringResource(R.string.app_name), fontSize = 18.sp) },
+        title = {
+            Text(
+                text = stringResource(R.string.app_name),
+                style = AppTypography.titleMedium
+            )
+        },
         navigationIcon = {
-                IconButton({ navController.popBackStack() }) {
-                    Icon(
-                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                        contentDescription = "menu items"
-                    )
-                }
+            IconButton({ navController.popBackStack() }) {
+                Icon(
+                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                    contentDescription = "menu items"
+                )
+            }
         },
         actions = {
             IconButton(onClick = {
