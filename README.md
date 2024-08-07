@@ -2,8 +2,6 @@
 
 Here's a sample README file for a movie app that consumes data from The Movie Database (TMDb) API and uses Android MVVM, Hilt, Retrofit, and Jetpack Compose.
 
-markdown
-
 # MovieApp
 
 MovieApp is an Android application that allows users to show Popular and Playing Now Movies. The app uses The Movie Database (TMDb) API to fetch movie data and implements modern Android development practices including MVVM architecture, Hilt for dependency injection, Retrofit for networking, and Jetpack Compose for UI.
@@ -34,6 +32,6 @@ The app follows the MVVM (Model-View-ViewModel) architecture pattern to ensure a
    git clone https://github.com/yourusername/MovieApp.git
    
 2. Open the project in Android Studio.
-3. Add the file .kueski_credentials to your zshrc or bashrc, after that you need to restart or logout and login on your computer.
+3. Add the file ``.kueski_credentials`` to your zshrc or bashrc, after that you need to restart or logout and login on your computer.
 4. Verify that the api key is being loaded to your environment variables running the command ``echo MOVIES_API_KEY``
 5. Build and run the app on an Android device or emulator.
