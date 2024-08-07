@@ -31,7 +31,7 @@ android {
             buildConfigField(
                 "String",
                 "API_KEY",
-                "\"d9066ec7feb9e1c8f7bfc4f7fa63f6e7\""
+                System.getenv("MOVIES_API_KEY")?:"\"\""
             )
         }
         release {
