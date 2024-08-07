@@ -1,5 +1,6 @@
 package com.technicaltest.feature_movies.presentation.composable
 
+import android.net.Uri
 import android.widget.Toast
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -11,6 +12,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
+import com.google.gson.Gson
 import com.technicaltest.design_system.R
 import com.technicaltest.design_system.theme.AppTheme
 import com.technicaltest.design_system.theme.navigation.NavigationItem
@@ -21,12 +25,13 @@ import com.technicaltest.feature_movies.presentation.composable.layout.MovieGrid
 import com.technicaltest.feature_movies.presentation.composable.layout.MovieListLayout
 
 @Composable
-fun MovieScreen(isGridView: Boolean, navigationItem: NavigationItem) {
+fun MovieScreen(navController: NavController, isGridView: Boolean, navigationItem: NavigationItem) {
     val viewModel: MoviesViewModel = hiltViewModel()
 
     val viewState by viewModel.viewState.collectAsState()
 
     val movies = remember { mutableStateOf(emptyList<Movie>()) }
+    val movieSelected = remember { mutableStateOf<Movie?>(null) }
 
     LaunchedEffect(Unit) {
         when (navigationItem) {
@@ -56,7 +61,13 @@ fun MovieScreen(isGridView: Boolean, navigationItem: NavigationItem) {
         }
     }
 
-    MoviesLayout(isGridView = isGridView, movies = movies.value, onMovieClick = {}) //MoviesLayout
+    MoviesLayout(isGridView = isGridView, movies = movies.value, onMovieClick = {
+        movieSelected.value = it
+    })
+
+    movieSelected.value?.let {
+        navController.navigate("movieDetails/${Uri.encode(Gson().toJson(it)).toString()}")
+    }
 }
 
 @Composable
@@ -74,7 +85,8 @@ private fun MoviesPreview() {
     AppTheme {
         MovieScreen(
             isGridView = true,
-            navigationItem = NavigationItem.PopularMovies
+            navigationItem = NavigationItem.PopularMovies,
+            navController = rememberNavController()
         )
     }
 }

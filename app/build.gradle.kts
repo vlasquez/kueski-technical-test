@@ -66,6 +66,7 @@ dependencies {
 
     implementation(project(":design-system"))
     implementation(project(":feature-movies"))
+    implementation(project(":network"))
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

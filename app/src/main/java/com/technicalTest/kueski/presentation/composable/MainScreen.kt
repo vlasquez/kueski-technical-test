@@ -22,7 +22,7 @@ fun MainScreen() {
 
     Scaffold(
         topBar = {
-            TopBar(isGridView = isGridView) { isGridViewState ->
+            TopBar(isGridView = isGridView, navController = navController) { isGridViewState ->
                 isGridView = isGridViewState
             }
         },

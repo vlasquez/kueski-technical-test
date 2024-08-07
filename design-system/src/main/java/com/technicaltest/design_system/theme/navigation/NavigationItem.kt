@@ -25,5 +25,4 @@ sealed class NavigationItem(var route: String, var icon: Int, @StringRes var tit
             R.drawable.favorite_movies,
             R.string.favorites_movies_title
         )
-
 }

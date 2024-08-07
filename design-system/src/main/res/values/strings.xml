@@ -4,5 +4,7 @@
     <string name="playing_now_movie_title">Playing Now</string>
     <string name="favorites_movies_title">Favorites</string>
     <string name="generic_error">Something went wrong!</string>
+    <string name="movie_description">Description</string>
+
 
 </resources>

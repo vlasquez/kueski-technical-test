@@ -8,6 +8,7 @@ fun MovieResponse.toMovie() = Movie(
     title = this.title,
     originalTitle = this.originalTitle,
     posterPath = BASE_IMAGE_URL + this.posterPath,
+    backdropPath = BASE_IMAGE_URL + this.backdropPath,
     releaseDate = this.releaseDate,
     overview = this.overview,
     popularity = this.popularity,

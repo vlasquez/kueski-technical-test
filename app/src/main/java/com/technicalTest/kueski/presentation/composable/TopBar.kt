@@ -1,6 +1,7 @@
 package com.technicalTest.kueski.presentation.composable
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.MailOutline
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -13,15 +14,28 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.technicalTest.kueski.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopBar(isGridView: Boolean, onLayoutTypeClicked: (Boolean) -> Unit) {
+fun TopBar(
+    navController: NavController,
+    isGridView: Boolean,
+    onLayoutTypeClicked: (Boolean) -> Unit
+) {
     val isGridViewState = remember { mutableStateOf(isGridView) }
 
     TopAppBar(
         title = { Text(text = stringResource(R.string.app_name), fontSize = 18.sp) },
+        navigationIcon = {
+                IconButton({ navController.popBackStack() }) {
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                        contentDescription = "menu items"
+                    )
+                }
+        },
         actions = {
             IconButton(onClick = {
                 isGridViewState.value = !isGridViewState.value
