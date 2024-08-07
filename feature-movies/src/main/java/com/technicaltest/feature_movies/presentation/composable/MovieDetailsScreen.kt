@@ -138,7 +138,7 @@ private fun MovieDetailsContent(
                             .width(54.dp)
                             .height(Layout.Spacing.Medium.S)
                             .background(
-                                color = Color.White,
+                                color = Color.Black,
                                 shape = RoundedCornerShape(size = Padding.Small.S)
                             )
                             .padding(
@@ -154,12 +154,14 @@ private fun MovieDetailsContent(
                         Row {
                             Icon(
                                 painter = painterResource(id = R.drawable.ic_favorite),
-                                contentDescription = null,
+                                contentDescription = "Vote Average",
+                                tint = Color.White
                             )
                             Spacer(modifier = Modifier.width(4.dp))
                             Text(
                                 text = movieVoteAverage,
                                 style = AppTypography.bodySmall,
+                                color = Color.White
                             )
                         }
                     }
